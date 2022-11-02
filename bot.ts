@@ -1,11 +1,36 @@
-import { Bot } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
-import { InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
+// deno-lint-ignore-file
+import { serve } from "https://deno.land/std@0.160.0/http/server.ts";
+import { webhookCallback, Bot, InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
+
+console.log("The script is being executed successfully. SANITY CHECK PASSED.")
 
 const lectureHalls = `
 Here are the halls on our campus:
 [LT 1.x](https://goo.gl/maps/RANXpqoEv7jy4KCP6)
 [LT 2.x](https://goo.gl/maps/gSNeUjT4S4Wu9bmr6)
 [LT 3.x](https://goo.gl/maps/GWSKbvzQ9y4Utn2s5)
+`;
+
+const lingo = `
+### Lingo you would be hearing around all the time in the campus!
+
+Fachha/Fachhi = Fresher 🍼
+Lite hai = Take it easy 😌
+Chill hai = Ab kaand ho gaya toh choro, sab chill hai 😎
+Pel insaan = Overachiever (machau) 💪
+Fakka = F grade 🫠
+Dassi = 10 cpi 🔟
+Maggu = Rote-learner 🤓
+BC = Branch Changer 🐍
+LC = Limbdi Corner 💞
+DG = LC but quieter, DhanrajGiri Corner 🤫
+HG = Hyderabad Gate 🥟
+VT = Vishwanath Temple 🛕
+Lankating = Lanka ki tafri karna 🛍️
+BT = Bad Trip (yaar BT ho gayi, fakka laga diya prof ne) 😭
+GT = Opposite of BT, Good Trip 👾
++1/++ = Support, agreement 🤝
+Proxy = Kisi aur ki roll call par present bolna🥷
 `;
 
 const hostels = `
@@ -175,11 +200,18 @@ Here are the sports grounds on our campus:
 `;
 
 const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
+const handleUpdate = webhookCallback(bot, "std/http");
+
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
     cb: "LT",
     data: lectureHalls,
+  },
+  {
+    text: "What did you just say?😤" ,
+    cb: "Lingo",
+    data: lingo,
   },
   {
     text: "Ugh, which hostel was that again?😅",
@@ -226,10 +258,8 @@ branches.forEach((branch) => {
 
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  console.log(data);
   if(data == "LT" || data == "Hostel" || data == "Timetables" || data == "dept" || data == "Medical" || data == "Gates" || data == "Sports"){
     commands.forEach(async (command) => {
-      console.log(command.cb);
       if(data === "Timetables") {
         await ctx.answerCallbackQuery("Fetching data...");
         await ctx.reply("Select your Branch", {reply_markup:branchKeyboard});
@@ -239,6 +269,7 @@ bot.on("callback_query:data", async (ctx) => {
         await ctx.api.sendMessage(ctx.msg?.chat?.id, command.data, {
           parse_mode: "Markdown"
         });
+        await ctx.reply("Try other commands here. ", { reply_markup: keyboard })
       }
     })
   }
@@ -259,4 +290,16 @@ bot.command("commands", async (ctx) => {
   await ctx.reply("Here are the available commands: ", {reply_markup:keyboard})
 })
 
-bot.start();
+serve(async (req) => {
+  if (req.method === "POST") {
+    const url = new URL(req.url);
+    if (url.pathname.slice(1) === bot.token) {
+      try {
+        return await handleUpdate(req);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+  return new Response();
+});
