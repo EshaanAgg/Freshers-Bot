@@ -1,6 +1,6 @@
 import { Bot } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
 import { InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
-
+import { fetchPosts } from "https://deno.land/x/redditposts/src/mod.ts";
 const lectureHalls = `
 Here are the halls on our campus:
 [LT 1.x](https://goo.gl/maps/RANXpqoEv7jy4KCP6)
@@ -14,7 +14,7 @@ Here are the boys hostels of our campus:
 [DG - 2](https://goo.gl/maps/qgQCdYfT8iJF79ZK6)
 [Morvi](https://goo.gl/maps/R31Zg6a5WN41g3vF7)
 [Vishwakarma](https://www.google.com/maps/place/Aryabhatta+Hostel,+IIT+BHU/@25.2631389,82.98215,17z/data=!3m1!4b1!4m5!3m4!1s0x398e3392e4725649:0x2c7d4cf06e09c1a2!8m2!3d25.2631389!4d82.9843387)
-[Limbdi](https://www.google.com/maps/place/Limbdi+Hostel/@25.2619258,82.9834115,17z/data=!4m9!1m2!2m1!1slimbdi+hostel+iit+bhu!3m5!1s0x398e331510759d13:0x7e6006655bbbc673!8m2!3d25.2612189!4d82.986068!15sChVsaW1iZGkgaG9zdGVsIGlpdCBiaHWSAQZob3N0ZWzgAQA)
+[Limbdi](https://www.google.com/maps/place/Limbdi+Hostel/@25.2619258,82.9834115,17z/truedata=!4m9!1m2!2m1!1slimbdi+hostel+iit+bhu!3m5!1s0x398e331510759d13:0x7e6006655bbbc673!8m2!3d25.2612189!4d82.986068!15sChVsaW1iZGkgaG9zdGVsIGlpdCBiaHWSAQZob3N0ZWzgAQA)
 [Rajputana](https://www.google.com/maps/place/Rajputana+Hostel/@25.2619258,82.9834115,17z/data=!4m9!1m2!2m1!1slimbdi+hostel+iit+bhu!3m5!1s0x398e322cf7f20c61:0xa0509b12a256482f!8m2!3d25.2623864!4d82.9862064!15sChVsaW1iZGkgaG9zdGVsIGlpdCBiaHVaFyIVbGltYmRpIGhvc3RlbCBpaXQgYmh1kgELYm95c19ob3N0ZWyaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVTkxkV0ZsYm1oM1JSQULgAQA)
 [CVR](https://www.google.com/maps/place/BHU+Tea+Stall+behind+VT/@25.2656838,82.985495,19.19z/data=!4m12!1m6!3m5!1s0x398e3392e4725649:0x2c7d4cf06e09c1a2!2sAryabhatta+Hostel,+IIT+BHU!8m2!3d25.2631389!4d82.9843387!3m4!1s0x398e322ea45bbcef:0x33b526b44ee5b99b!8m2!3d25.265934!4d82.98689)
 [Vishweshwaraiya](https://www.google.com/maps/place/Vishweshwaraiya+Hostel/@25.2623035,82.9802092,17z/data=!4m9!1m2!2m1!1sVishweshwaraiya+iit+bhu!3m5!1s0x398e33b047306281:0xeabd3e37be30bf5b!8m2!3d25.2623035!4d82.9839534!15sChdWaXNod2VzaHdhcmFpeWEgaWl0IGJodZIBE2hvdXNpbmdfZGV2ZWxvcG1lbnTgAQA)
@@ -33,102 +33,86 @@ const branches = [
   {
    text: "CSE",
    cb: "cse",
-   
    url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402214/cse_mnc_bbkjpt.png"
   },
   {
    text: "MNC",
    cb: "mnc",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402214/cse_mnc_bbkjpt.png"
   },
   {
    text: "CHEM",
    cb: "chem",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401977/chem_ic_time_table_nw2kvt.png"
   },
   {
    text: "EEE",
     cb: "eee",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402364/ee_bvvqw7.png"
   },
   {
    text: "MECH",
     cb: "mech",
-        url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402310/mech_yccnua.png"
+    url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402310/mech_yccnua.png"
   },
   {
    text: "CIVIL",
     cb: "civil",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402255/civil_muxls8.png"
   },
   {
    text: "META",
     cb: "meta",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402101/meta_lizyla.png"
   },
   {
    text: "BIOCHEM",
     cb: "biochem",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401894/biochem_biomedical_pharma_time_table_vxlzpu.png"
   },
   {
    text: "BIOMED",
     cb: "biomed",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401894/biochem_biomedical_pharma_time_table_vxlzpu.png"
   },
   {
     text: "PHARMA",
     cb: "pharma",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401894/biochem_biomedical_pharma_time_table_vxlzpu.png"
   },
   {
    text: "CERA",
     cb: "cera",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402045/cera_matsci_j64hds.png"
   },
   {
    text: "ECE",
     cb: "ece",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402413/ece_ep_x0fpls.png"
   },
   {
     text:"IC",
     cb:"ic",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401977/chem_ic_time_table_nw2kvt.png"
   },
   {
     text:"MATSCI",
     cb:"matsci",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402045/cera_matsci_j64hds.png"
   },
   {
     text:"MINING",
     cb:"mining",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402158/mining_sbv1kb.png"
   },
   {
     text:"AP",
     cb:"ap",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402477/arch_a1zuhn.png"
   },
   {
     text:"EP",
     cb:"ep",
-    
     url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667402413/ece_ep_x0fpls.png"
   }
 ]
@@ -175,6 +159,7 @@ Here are the sports grounds on our campus:
 `;
 
 const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
+
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
@@ -187,7 +172,7 @@ const commands = [
     data: hostels,
   },
   {
-    text:"Can't remember my timetable?",
+    text:"Can't remember my timetable?🕐",
     cb:"Timetables",
     data:hostels,
   },
@@ -211,6 +196,10 @@ const commands = [
     cb: "Sports",
     data: sports,
   },
+  {
+    text:"🤣Memes",
+    cb:"Memes",
+  }
 ];
 
 const keyboard = new InlineKeyboard();
@@ -223,13 +212,25 @@ branches.forEach((branch) => {
   branchKeyboard.text(branch.text, branch.cb);
   branchKeyboard.row();
 })
-
+const memesKeyboard = new InlineKeyboard();
+memesKeyboard.text("🤣", "Memes");
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
   console.log(data);
-  if(data == "LT" || data == "Hostel" || data == "Timetables" || data == "dept" || data == "Medical" || data == "Gates" || data == "Sports"){
+  
+  if(data ==="Memes"){
+    const memes = await fetchPosts("memes",{sort:"new",limit:100,filterNSFW:false,amount:100});  
+    console.log(memes.length);
+    console.log(memes);
+    
+    await ctx.answerCallbackQuery("Here are some memes for you");
+    const meme = memes[Math.floor(Math.random()*memes.length)];
+    console.log(meme);
+    await ctx.replyWithPhoto(meme.imageURL);
+    await ctx.api.sendMessage(ctx.chat.id, "Want more?", {reply_markup: memesKeyboard});
+  }
+  else if(data == "LT" || data == "Hostel" || data == "Timetables" || data == "dept" || data == "Medical" || data == "Gates" || data == "Sports"){
     commands.forEach(async (command) => {
-      console.log(command.cb);
       if(data === "Timetables") {
         await ctx.answerCallbackQuery("Fetching data...");
         await ctx.reply("Select your Branch", {reply_markup:branchKeyboard});
