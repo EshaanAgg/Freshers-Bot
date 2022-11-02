@@ -16,7 +16,7 @@ Here are the boy hostels on our campus:
 `;
 
 const bot = new Bot(
-  "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
+  Deno.env.get('TELEGRAM_BOT_TOKEN') || ''
   );
 const cal = [
   {text:'English Calender',
