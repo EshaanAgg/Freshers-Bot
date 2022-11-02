@@ -8,6 +8,44 @@ Here are the halls on our campus:
 [LT 3.x](https://goo.gl/maps/GWSKbvzQ9y4Utn2s5)
 `;
 
+const lingo = `
+Lingo you would be hearing around all the time in the campus!
+
+Fachha/Fachhi = Fresher 🍼
+
+Lite hai = Take it easy 😌
+
+Chill hai = Ab kaand ho gaya toh choro, sab chill hai 😎
+
+Pel insaan = Overachiever (machau) 💪
+
+Fakka = F grade 🫠
+
+Dassi = 10 cpi 🔟
+
+Maggu = Rote-learner 🤓
+
+BC = Branch Changer 🐍
+
+LC = Limbdi Corner 💞
+
+DG = LC but quieter, DhanrajGiri Corner 🤫
+
+HG = Hyderabad Gate 🥟
+
+VT = Vishwanath Temple 🛕
+
+Lankating = Lanka ki tafri karna 🛍️
+ 
+BT = Bad Trip (yaar BT ho gayi, fakka laga diya prof ne) 😭
+
+GT = Opposite of BT, Good Trip 👾
+
++1/++ = Support, agreement 🤝
+
+Proxy = Kisi aur ki roll call par present bolna🥷
+`;
+
 const hostels = `
 Here are the boys hostels of our campus:
 [Aryabhatta](https://goo.gl/maps/6Ka5C6ykMSpAz73t5)
@@ -76,6 +114,11 @@ const commands = [
     text: "Can't find my LT. Welpp!😥",
     cb: "LT",
     data: lectureHalls,
+  },
+  {
+    text: "Can't get a lingo!😤 Wanna have a look?" ,
+    cb: "Lingo",
+    data: lingo,
   },
   {
     text: "Ugh, which hostel was that again?😅",
