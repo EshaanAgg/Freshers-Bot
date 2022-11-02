@@ -158,15 +158,12 @@ branches.forEach((branch) => {
 })
 
 bot.on("callback_query:data", async (ctx) => {
-  // let type = ctx.callbackQuery?.type;
-  // console.log(type);
-  
   let data = ctx.callbackQuery?.data;
   console.log(data);
   if(data == "LT" || data == "Hostel" || data == "Timetables"){
     commands.forEach(async (command) => {
       console.log(command.cb);
-      if(command.cb === "Timetables") {{
+      if(data === "Timetables") {{
         await ctx.answerCallbackQuery("Fetching data...");
         await ctx.reply("Select your Branch", {reply_markup:branchKeyboard});
       }}
@@ -188,7 +185,6 @@ bot.on("callback_query:data", async (ctx) => {
   branches.forEach(async(branch) => {
     if(branch.cb === data){
      await ctx.replyWithPhoto(branch.url);
-    //  await ctx.api.sendMessage("Here you go");
     }
   })
 }
