@@ -61,10 +61,19 @@ const gates=`
 [🏣Lanka Gate](https://goo.gl/maps/BtWYYFKneZs4KzgT7)
 [🏬Naraia Gate](https://goo.gl/maps/WrV9ASyZrPfs7bgU6)
 `
+const sports = `
+Here are the sports grounds on our campus:
+[Rajputana](https://goo.gl/maps/DGwywSjg2HoSHYFj8)
+[Gymkhana](https://goo.gl/maps/9gYchcEGNT1Zr3Nb9)
+[Athletic Ground](https://goo.gl/maps/YSvxWe8VtzvbJwFJ8)
+[Students Activity Centre (SAC)](https://goo.gl/maps/b2KPRtkEJan2LcNZ9)
+[BHU Pool](https://goo.gl/maps/uxAmEWXRPqcyMRfR7)
+`;
 
 const bot = new Bot(
   "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
 );
+
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
@@ -90,6 +99,11 @@ const commands = [
     text: "🚪Gates of IIT BHU",
     cb : "Gates",
     data: gates,
+  },
+  {
+    text: "Wanna play? 😏",
+    cb: "Sports",
+    data: sports,
   },
 ];
 
