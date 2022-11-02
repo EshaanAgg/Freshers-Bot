@@ -101,7 +101,7 @@ const commands = [
     data: gates,
   },
   {
-    text: "Wanna explore some games? Head on to the arena of sports!",
+    text: "Wanna play? 😏",
     cb: "Sports",
     data: sports,
   },
