@@ -43,9 +43,10 @@ bot.on("callback_query:data", async (ctx) => {
   commands.forEach(async (command) => {
     if (command.cb == data) {
       await ctx.answerCallbackQuery("Fetching data....");
-      await ctx.api.sendMessage(ctx.msg?.chat?.id, command.data, {
+      await ctx.api.sendMessage(ctx.msg.chat.id, command.data, {
         parse_mode: "Markdown"
       });
+      await ctx.api.sendMessage(ctx.msg.chat.id, "Try other commands here. ", {reply_markup:keyboard})
     }
   })
 })
