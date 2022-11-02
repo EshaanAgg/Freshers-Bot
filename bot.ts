@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { Bot } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
 import { InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
 
@@ -157,4 +158,4 @@ bot.command("commands", async (ctx) =>
   await ctx.reply("Here are the available commands: ", { reply_markup: keyboard })
 )
 
-bot.start();
+export default bot;
