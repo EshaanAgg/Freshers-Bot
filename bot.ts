@@ -70,7 +70,13 @@ Here are the sports grounds on our campus:
 [BHU Pool](https://goo.gl/maps/uxAmEWXRPqcyMRfR7)
 `;
 
-const bot = new Bot('5673881243:AAEsIDrhX34JzPw76DJqu13wAFtstM33T00');
+const bot = new Bot(
+  Deno.env.get('TELEGRAM_BOT_TOKEN') || ''
+  );
+const cal = [
+  {text:'English Calender',
+cb:'eng',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png'}, 
+{text:'Hindi Calender',cb:'hindi',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png'}];
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
