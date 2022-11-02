@@ -29,11 +29,31 @@ Here are the girls hostels of our campus:
 [New Girls](https://www.google.com/maps/place/New+girls+hostel,+IIT+BHU/@25.2610079,82.981693,17z/data=!3m1!4b1!4m5!3m4!1s0x398e33ab82c42891:0x658f95bb01e8de33!8m2!3d25.2610079!4d82.9838817)
 `;
 
+const departments = `
+Here are the locations of the department buildings of our college:
+[1. Architecture, Planning and Design](https://goo.gl/maps/vf77vxFhVaLWJXLm7)
+[2. Ceramic Engineering and Technology](https://goo.gl/maps/ETLzw8L2opSQi4vT9)
+[3. Chemical Engineering](https://goo.gl/maps/ETLzw8L2opSQi4vT9)
+[4. Civil Engineering](https://goo.gl/maps/nbEXG8bNAdDPAGtW7)
+[5. Computer Science and Technology](https://goo.gl/maps/aiUYVTmzee1CA1hu8)
+[6. Electrical Engineering](https://goo.gl/maps/331gmEAioPF6jrat7)
+[7. Electronics Engineering](https://goo.gl/maps/MmUHGRYnsSPLC58y6)
+[8. Mechanical Engineering](https://goo.gl/maps/MmUHGRYnsSPLC58y6)
+[9. Metallurgical Engineering](https://goo.gl/maps/TRoh2Efn7z5EERjZ7)
+[10. Mining Engineering](https://goo.gl/maps/kEz7Qmabpmghuf779)
+[11. Pharmaceutical Engineering and Technology](https://goo.gl/maps/kVLpLYvH1rAHJXVa9)
+[12. Chemistry(IC)](https://goo.gl/maps/rP51MpE6bJvbWKL96)
+[13. Mathematical Sciences (MnC)](https://goo.gl/maps/VDfJKr3XXSnJdi6R7)
+[14. Engineering Physics](https://goo.gl/maps/HLVtNaFfwfxQN5Z2A)
+[15. Biochemical Engineering](https://goo.gl/maps/R9gAEDpvH4e1WLao6)
+[16. Biomedical Engineering](https://goo.gl/maps/7C148GEaraaeqzvdA)
+[17. Materical Science and Technology](https://goo.gl/maps/yu7BrD6WrgDvzfNw6)
+`;
 const medicalFacilities=`
 🏥 [Health Centre](https://www.google.com/maps/place/Student+Health+Centre,+Banaras+Hindu+University/@25.2700312,82.986463,17z/data=!3m1!4b1!4m5!3m4!1s0x398e3228b8d042cd:0xe89a2d87d8ccab17!8m2!3d25.2700312!4d82.9886517)
 🚑 [Trauma Centre](https://goo.gl/maps/Z7Nrc3uh7RxfQnfo8)
 🧑‍⚕️ [SundarLal Hospital](https://goo.gl/maps/cmSbc6n6pZ4btBJ59)
-`
+`;
 
 
 
@@ -42,17 +62,22 @@ const bot = new Bot(
 );
 const commands = [
   {
-    text: "Can't find my LT. Help!",
-    cb : "LT",
+    text: "Can't find my LT. Welpp!😥",
+    cb: "LT",
     data: lectureHalls,
   },
   {
-    text: "Ugh, which hostel was that again?",
-    cb : "Hostel",
+    text: "Ugh, which hostel was that again?😅",
+    cb: "Hostel",
     data: hostels,
   },
   {
-    text: "Medical emergency. Help!",
+    text: "Where is my department?🤨",
+    cb: "dept",
+    data: departments,
+  },
+  {
+    text: "Medical emergency. Help!💉",
     cb : "Medical",
     data: medicalFacilities,
   },
@@ -72,7 +97,7 @@ bot.on("callback_query:data", async (ctx) => {
       await ctx.api.sendMessage(ctx.msg.chat.id, command.data, {
         parse_mode: "Markdown"
       });
-      await ctx.api.sendMessage(ctx.msg.chat.id, "Try other commands here. ", {reply_markup:keyboard})
+      await ctx.api.sendMessage(ctx.msg.chat.id, "Try other commands here. ", { reply_markup: keyboard })
     }
   })
 })
@@ -80,8 +105,8 @@ bot.on("callback_query:data", async (ctx) => {
 bot.command("start", async (ctx) =>
   await ctx.reply("Welcome! The bot is up and running. \nSend /commands to see all the available commands.")
 );
-bot.command("commands", async (ctx) => 
-  await ctx.reply("Here are the available commands: ", {reply_markup:keyboard})
+bot.command("commands", async (ctx) =>
+  await ctx.reply("Here are the available commands: ", { reply_markup: keyboard })
 )
 
 bot.start();
