@@ -29,6 +29,13 @@ Here are the girls hostels of our campus:
 [New Girls](https://www.google.com/maps/place/New+girls+hostel,+IIT+BHU/@25.2610079,82.981693,17z/data=!3m1!4b1!4m5!3m4!1s0x398e33ab82c42891:0x658f95bb01e8de33!8m2!3d25.2610079!4d82.9838817)
 `;
 
+const medicalFacilities=`
+🏥 [Health Centre](https://www.google.com/maps/place/Student+Health+Centre,+Banaras+Hindu+University/@25.2700312,82.986463,17z/data=!3m1!4b1!4m5!3m4!1s0x398e3228b8d042cd:0xe89a2d87d8ccab17!8m2!3d25.2700312!4d82.9886517)
+🚑 [Trauma Centre](https://goo.gl/maps/Z7Nrc3uh7RxfQnfo8)
+🧑‍⚕️ [SundarLal Hospital](https://goo.gl/maps/cmSbc6n6pZ4btBJ59)
+`
+
+
 
 const bot = new Bot(
   "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
@@ -43,6 +50,11 @@ const commands = [
     text: "Ugh, which hostel was that again?",
     cb : "Hostel",
     data: hostels,
+  },
+  {
+    text: "Medical emergency. Help!",
+    cb : "Medical",
+    data: medicalFacilities,
   },
 ];
 
