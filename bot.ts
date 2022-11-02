@@ -174,10 +174,7 @@ Here are the sports grounds on our campus:
 [BHU Pool](https://goo.gl/maps/uxAmEWXRPqcyMRfR7)
 `;
 
-// const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
-const bot = new Bot(
-  "5786471028:AAFs-OdMIUOVL4Gzt4JcmFGdGjzwvxEmG3A"
-);
+const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
