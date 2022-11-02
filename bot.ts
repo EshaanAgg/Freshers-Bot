@@ -17,25 +17,31 @@ Here are the boy hostels on our campus:
 
 const bot = new Bot(
   "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
-  );
+);
 const cal = [
-  {text:'English Calender',
-cb:'eng',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png'}, 
-{text:'Hindi Calender',cb:'hindi',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png'}];
+  {
+    text: 'English Calender',
+    cb: 'eng'
+  },
+  { text: 'Hindi Calender', 
+    cb: 'hindi' 
+  }
+];
+
 const commands = [
   {
     text: "Can't find my LT. Welpp!",
-    cb : "LT",
+    cb: "LT",
     data: lectureHalls,
   },
   {
     text: "Ugh, which hostel was that again?",
-    cb : "Hostel",
+    cb: "Hostel",
     data: hostels,
   },
   {
-    text:"Can't remember college events??",
-    cb : 'calender',
+    text: "Can't remember college events??",
+    cb: 'calender',
   }
 ];
 
@@ -46,43 +52,45 @@ commands.forEach((command) => {
 })
 
 const calenderKeyboard = new InlineKeyboard();
-cal.forEach((c)=>{
-  calenderKeyboard.text(c.text,c.cb);
+cal.forEach((c) => {
+  calenderKeyboard.text(c.text, c.cb);
   keyboard.row();
 })
 
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  if(data=='eng'){
-          await ctx.answerCallbackQuery("Fetching Data....");
-          await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png",{
-            parse_mode: "Markdown"
-          })
-        }
-        else if(data=='hindi'){
+  if (data == 'eng') {
     await ctx.answerCallbackQuery("Fetching Data....");
-    await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png",{
+    await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png", {
       parse_mode: "Markdown"
     })
   }
-  else if(data=='calender'){
-    await ctx.reply("Select Language:",{reply_markup:calenderKeyboard})
+  else if (data == 'hindi') {
+    await ctx.answerCallbackQuery("Fetching Data....");
+    await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png", {
+      parse_mode: "Markdown"
+    })
   }
-  else{commands.forEach(async (command) => {
-    if (command.cb == data) {
-      await ctx.answerCallbackQuery("Fetching data....");
-      await ctx.api.sendMessage(ctx.msg?.chat?.id, command.data, {
-        parse_mode: "Markdown"
-      });
-    }
-  })}
+  else if (data == 'calender') {
+    await ctx.reply("Select Language:", { reply_markup: calenderKeyboard })
+  }
+  else {
+    commands.forEach(async (command) => {
+      if (command.cb == data) {
+        await ctx.answerCallbackQuery("Fetching data....");
+        await ctx.api.sendMessage(ctx.msg?.chat?.id, command.data, {
+          parse_mode: "Markdown"
+        });
+      }
+    })
+  }
 })
 
 bot.command("start", async (ctx) =>
   await ctx.reply("Welcome! The bot is up and running. \nSend /commands to see all the available commands.")
 );
-bot.command("commands", async (ctx) => 
-  await ctx.reply("Here are the available commands: ", {reply_markup:keyboard})
+bot.command("commands", async (ctx) =>
+  await ctx.reply("Here are the available commands: ", { reply_markup: keyboard })
 )
 
 bot.start();
