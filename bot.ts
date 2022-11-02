@@ -35,7 +35,12 @@ const medicalFacilities=`
 [SundarLal Hospital](https://goo.gl/maps/cmSbc6n6pZ4btBJ59)
 `
 
-
+const gates=`
+[Seer Gate](https://goo.gl/maps/KyG1FkyhHAQyGeGc7)
+[Hyderabad Gate](https://goo.gl/maps/mKbkxhGC9gNxQh4M9)
+[Lanka Gate](https://goo.gl/maps/BtWYYFKneZs4KzgT7)
+[Naraia Gate](https://goo.gl/maps/WrV9ASyZrPfs7bgU6)
+`
 
 const bot = new Bot(
   "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
@@ -55,6 +60,11 @@ const commands = [
     text: "Medical emergency. Help!",
     cb : "Medical",
     data: medicalFacilities,
+  },
+  {
+    text: "🚪Gates of IIT BHU",
+    cb : "Gates",
+    data: gates,
   },
 ];
 
