@@ -36,10 +36,10 @@ const medicalFacilities=`
 `
 
 const gates=`
-[Seer Gate](https://goo.gl/maps/KyG1FkyhHAQyGeGc7)
-[Hyderabad Gate](https://goo.gl/maps/mKbkxhGC9gNxQh4M9)
-[Lanka Gate](https://goo.gl/maps/BtWYYFKneZs4KzgT7)
-[Naraia Gate](https://goo.gl/maps/WrV9ASyZrPfs7bgU6)
+[🏛️Seer Gate](https://goo.gl/maps/KyG1FkyhHAQyGeGc7)
+[🏢Hyderabad Gate](https://goo.gl/maps/mKbkxhGC9gNxQh4M9)
+[🏣Lanka Gate](https://goo.gl/maps/BtWYYFKneZs4KzgT7)
+[🏬Naraia Gate](https://goo.gl/maps/WrV9ASyZrPfs7bgU6)
 `
 
 const bot = new Bot(
