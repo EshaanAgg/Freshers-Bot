@@ -62,9 +62,7 @@ const gates=`
 [🏬Naraia Gate](https://goo.gl/maps/WrV9ASyZrPfs7bgU6)
 `
 
-const bot = new Bot(
-  "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
-);
+const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
