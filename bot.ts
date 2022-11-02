@@ -15,10 +15,13 @@ Here are the boy hostels on our campus:
 [Morvi](https://goo\.gl/maps/R31Zg6a5WN41g3vF7)
 `;
 
-
 const bot = new Bot(
   "5462906162:AAEg7BD-wh7MgxTTkgZnFmjsMYCUFSLlJOc"
-);
+  );
+const cal = [
+  {text:'English Calender',
+cb:'eng',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png'}, 
+{text:'Hindi Calender',cb:'hindi',url:'https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png'}];
 const commands = [
   {
     text: "Can't find my LT. Welpp!",
@@ -30,6 +33,10 @@ const commands = [
     cb : "Hostel",
     data: hostels,
   },
+  {
+    text:"Can't remember college events??",
+    cb : 'calender',
+  }
 ];
 
 const keyboard = new InlineKeyboard();
@@ -38,16 +45,37 @@ commands.forEach((command) => {
   keyboard.row();
 })
 
+const calenderKeyboard = new InlineKeyboard();
+cal.forEach((c)=>{
+  calenderKeyboard.text(c.text,c.cb);
+  keyboard.row();
+})
+
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  commands.forEach(async (command) => {
+  if(data=='eng'){
+          await ctx.answerCallbackQuery("Fetching Data....");
+          await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png",{
+            parse_mode: "Markdown"
+          })
+        }
+        else if(data=='hindi'){
+    await ctx.answerCallbackQuery("Fetching Data....");
+    await ctx.replyWithPhoto("https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png",{
+      parse_mode: "Markdown"
+    })
+  }
+  else if(data=='calender'){
+    await ctx.reply("Select Language:",{reply_markup:calenderKeyboard})
+  }
+  else{commands.forEach(async (command) => {
     if (command.cb == data) {
       await ctx.answerCallbackQuery("Fetching data....");
       await ctx.api.sendMessage(ctx.msg?.chat?.id, command.data, {
         parse_mode: "Markdown"
       });
     }
-  })
+  })}
 })
 
 bot.command("start", async (ctx) =>
