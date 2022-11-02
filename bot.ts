@@ -1,6 +1,8 @@
 // deno-lint-ignore-file
-import { Bot } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
-import { InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
+import { serve } from "https://deno.land/std@0.160.0/http/server.ts";
+import { webhookCallback, Bot, InlineKeyboard } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
+
+console.log("The script is being executed successfully. SANITY CHECK PASSED.")
 
 const lectureHalls = `
 Here are the halls on our campus:
@@ -10,7 +12,7 @@ Here are the halls on our campus:
 `;
 
 const lingo = `
-Lingo you would be hearing around all the time in the campus!
+### Lingo you would be hearing around all the time in the campus!
 
 Fachha/Fachhi = Fresher 🍼
 Lite hai = Take it easy 😌
@@ -94,6 +96,8 @@ Here are the sports grounds on our campus:
 `;
 
 const bot = new Bot(Deno.env.get('TELEGRAM_BOT_TOKEN') || '');
+const handleUpdate = webhookCallback(bot, "std/http");
+
 const commands = [
   {
     text: "Can't find my LT. Welpp!😥",
@@ -143,10 +147,10 @@ bot.on("callback_query:data", async (ctx) => {
   commands.forEach(async (command) => {
     if (command.cb == data) {
       await ctx.answerCallbackQuery("Fetching data....");
-      await ctx.api.sendMessage(ctx.msg.chat.id, command.data, {
+      await ctx.reply(command.data, {
         parse_mode: "Markdown"
       });
-      await ctx.api.sendMessage(ctx.msg.chat.id, "Try other commands here. ", { reply_markup: keyboard })
+      await ctx.reply("Try other commands here. ", { reply_markup: keyboard })
     }
   })
 })
@@ -158,4 +162,16 @@ bot.command("commands", async (ctx) =>
   await ctx.reply("Here are the available commands: ", { reply_markup: keyboard })
 )
 
-export default bot;
+serve(async (req) => {
+  if (req.method === "POST") {
+    const url = new URL(req.url);
+    if (url.pathname.slice(1) === bot.token) {
+      try {
+        return await handleUpdate(req);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+  return new Response();
+});
