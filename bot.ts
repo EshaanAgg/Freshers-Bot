@@ -14,6 +14,8 @@ Here are the halls on our campus:
 [LT 1.x](https://goo.gl/maps/RANXpqoEv7jy4KCP6)
 [LT 2.x](https://goo.gl/maps/gSNeUjT4S4Wu9bmr6)
 [LT 3.x](https://goo.gl/maps/GWSKbvzQ9y4Utn2s5)
+[ABLT](https://goo.gl/maps/nTz39riDTYy9j5oi8)
+[ED Hall](https://goo.gl/maps/Fdy51nkoafJZYCiy7)
 `;
 
 const lingo = `
