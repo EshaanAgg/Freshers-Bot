@@ -238,6 +238,11 @@ const commands = [
     cb: "Memes",
     data: "",
   },
+  {
+    text:"Getting Bored, Want jokes??😂😂",
+    cb:"jokes",
+    data:""
+  }
 ];
 
 const keyboard = new InlineKeyboard();
