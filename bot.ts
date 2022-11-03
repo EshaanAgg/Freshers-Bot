@@ -305,6 +305,17 @@ bot.command("commands", async (ctx) => {
   });
 });
 
+// Handler for all messages that aren't valid commands or callbacks
+bot.on("message", async (ctx) => {
+    await ctx.reply(`
+    I don't seem to recognise this command.
+    You can check the commands by clicking the "Menu" option beside your keyboard!
+    `, {
+        parse_mode: 'Markdown'
+    })
+})
+
+
 serve(async (req) => {
   if (req.method === "POST") {
     const url = new URL(req.url);
