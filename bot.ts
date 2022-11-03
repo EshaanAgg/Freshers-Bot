@@ -255,9 +255,32 @@ branches.forEach((branch, index) => {
 const memesKeyboard = new InlineKeyboard();
 memesKeyboard.text("🤣", "Memes");
 
+const fetchJokes = {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': Deno.env.get("RapidAPI-Key"),
+    'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com',
+  }
+};
+// 6db0ea5923msh2d87aae28ecbc37p135650jsn6925535a0888
+
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  if (data === "Memes") {
+  if (data == 'jokes') {
+    fetch('https://jokeapi-v2.p.rapidapi.com/joke/Any?type=twopart', fetchJokes)
+      .then(response => response.json())
+      .then(response => {
+        ctx.answerCallbackQuery("Fetching data....");
+        ctx.api.sendMessage(ctx.msg?.chat?.id, response.setup, {
+          parse_mode: "Markdown"
+        });
+        setTimeout(() => ctx.api.sendMessage(ctx.msg?.chat?.id, response.delivery, {
+          parse_mode: "Markdown"
+        }), 5000);
+      })
+      .catch(err => console.error(err));
+  }
+  else if (data === "Memes") {
     const memes = await fetchPosts("memes", {
       sort: "new",
       limit: 100,
