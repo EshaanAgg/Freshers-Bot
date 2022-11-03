@@ -299,7 +299,7 @@ bot.on("callback_query:data", async (ctx) => {
     if(data=="calender"){
       
       await ctx.answerCallbackQuery("Fetching data...");
-      await ctx.reply("Select your branch: ", { reply_markup: calenderKeyboard });
+      await ctx.reply("Select Calender language: ", { reply_markup: calenderKeyboard });
     }
     else{
       calenders.forEach(async (calender) => {
