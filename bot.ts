@@ -238,6 +238,11 @@ const commands = [
     cb: "Memes",
     data: "",
   },
+  {
+    text:"Getting Bored, Want jokes??😂😂",
+    cb:"jokes",
+    data:""
+  }
 ];
 
 const keyboard = new InlineKeyboard();
@@ -255,9 +260,31 @@ branches.forEach((branch, index) => {
 const memesKeyboard = new InlineKeyboard();
 memesKeyboard.text("🤣", "Memes");
 
+const fetchJokes = {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': Deno.env.get("RapidAPI-Key"),
+    'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com',
+  }
+};
+
+
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  if (data === "Memes") {
+  if (data == 'jokes') {
+      let response = await fetch('https://jokeapi-v2.p.rapidapi.com/joke/Any?type=twopart', fetchJokes)
+      let res = await response.json();
+      
+        ctx.answerCallbackQuery("Fetching data....");
+        ctx.api.sendMessage(ctx.msg?.chat?.id, res.setup, {
+          parse_mode: "Markdown"
+        });
+        setTimeout(() => ctx.api.sendMessage(ctx.msg?.chat?.id, res.delivery, {
+          parse_mode: "Markdown"
+        }), 5000);
+
+  }
+  else if (data === "Memes") {
     const memes = await fetchPosts("memes", {
       sort: "new",
       limit: 100,
