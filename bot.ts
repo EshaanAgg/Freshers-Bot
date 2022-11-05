@@ -397,11 +397,13 @@ async function generateOrientationEndImage(username: string) {
       },
     }
   );
+  console.log(image);
   return image;
 }
 
 bot.command("end", async (ctx) => {
   var image = await generateOrientationEndImage(ctx.message?.chat?.first_name);
+  console.log(image);
   await ctx.reply(
     "Here is a custom badge just for YOU! Congrats on making it to the end!"
   );
