@@ -361,53 +361,25 @@ bot.on("callback_query:data", async (ctx) => {
   }
 });
 
-var bannerImageRequestObject = {
-  template: "j14WwV5VQmjjZa7XrB",
-  modifications: [
-    {
-      name: "name",
-      text: "You can change this text",
-      color: null,
-      background: null,
-    },
-  ],
-  webhook_url: null,
-  transparent: false,
-  metadata: null,
-};
+const endingMessage = `
+Thanks for being with us!
 
-async function generateOrientationEndImage(username: string) {
-  bannerImageRequestObject.modifications[0].name = username;
+Here are some important links for you guys:
+- Follow us on [Instagram](https://www.instagram.com/cops.iitbhu/)
+- Join the [COPS Discord](demo-link) to be a part of our community
 
-  var response = await fetch("https://api.bannerbear.com/v2/images", {
-    method: "POST",
-    body: JSON.stringify(bannerImageRequestObject),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${Deno.env.get("BANNERBEAR_API_KEY")}`,
-    },
-  });
-  let res = await response.json();
-  var image = await fetch(
-    `https://api.bannerbear.com/v2/images/${res["uid"]}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${Deno.env.get("BANNERBEAR_API_KEY")}`,
-      },
-    }
-  );
-  let res2 = await image.json();
-  return res2["image_url"];
-}
+Here are some other important links:
+- [Orientation PPT](https://www.canva.com/design/DAFQmAg4Jiw/mLsMI1VdKUcpnzhL2pQEWA/edit?utm_content=DAFQmAg4Jiw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+- [COPS Website](https://www.copsiitbhu.co.in/) for all resources and how to get started
+- [SDG Website](https://sdg.copsiitbhu.co.in/)
+
+Hoping you will take part in the secret treasure hunt!
+`;
 
 bot.command("end", async (ctx) => {
-  var image = await generateOrientationEndImage(ctx.message?.chat?.first_name);
-  console.log(image);
-  await ctx.reply(
-    "Here is a custom badge just for YOU! Congrats on making it to the end!"
-  );
-  await ctx.replyWithPhoto(image);
+  await ctx.reply(endingMessage, {
+    parse_mode: "Markdown",
+  });
 });
 
 bot.command("start", async (ctx) => {
