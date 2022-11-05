@@ -398,7 +398,7 @@ async function generateOrientationEndImage(username: string) {
 }
 
 bot.command("end", async (ctx) => {
-  var image = await ctx.message?.chat?.first_name;
+  var image = await generateOrientationEndImage(ctx.message?.chat?.first_name);
   await ctx.reply(
     "Here is a custom badge just for YOU! Congrats on making it to the end!"
   );
