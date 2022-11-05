@@ -398,8 +398,7 @@ async function generateOrientationEndImage(username: string) {
     }
   );
   let res2 = await image.json();
-  console.log(res2);
-  return image;
+  return res2["image_url"];
 }
 
 bot.command("end", async (ctx) => {
