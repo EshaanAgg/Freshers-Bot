@@ -241,29 +241,29 @@ const commands = [
     data: "",
   },
   {
-    text:"Getting Bored, Want jokes??😂😂",
-    cb:"jokes",
-    data:""
+    text: "Getting Bored, Want jokes??😂😂",
+    cb: "jokes",
+    data: "",
   },
   {
-    text:"Uff!! Can't recall upcoming events😭",
-    cb:"calender",
-    data:""
-  }
+    text: "Uff!! Can't recall upcoming events😭",
+    cb: "calender",
+    data: "",
+  },
 ];
 
 const calenders = [
   {
-    text:"English Calender",
-    cb:"calender-english",
-    url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png"
+    text: "English Calender",
+    cb: "calender-english",
+    url: "https://res.cloudinary.com/dlba1yian/image/upload/v1667401684/english_calender_idb3rh.png",
   },
   {
-    text:"Hindi Calender",
-    cb:"calender-hindi",
-    url:"https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png"
-  }
-]
+    text: "Hindi Calender",
+    cb: "calender-hindi",
+    url: "https://res.cloudinary.com/dlba1yian/image/upload/v1667401774/hindi_calender_fi4r8g.png",
+  },
+];
 
 const keyboard = new InlineKeyboard();
 commands.forEach((command) => {
@@ -280,49 +280,52 @@ branches.forEach((branch, index) => {
 const memesKeyboard = new InlineKeyboard();
 memesKeyboard.text("🤣", "Memes");
 
-
 const calenderKeyboard = new InlineKeyboard();
 calenders.forEach((c) => {
   calenderKeyboard.text(c.text, c.cb);
 });
 
 const fetchJokes = {
-  method: 'GET',
+  method: "GET",
   headers: {
-    'X-RapidAPI-Key': Deno.env.get("RapidAPI-Key"),
-    'X-RapidAPI-Host': 'jokeapi-v2.p.rapidapi.com',
-  }
+    "X-RapidAPI-Key": Deno.env.get("RapidAPI-Key"),
+    "X-RapidAPI-Host": "jokeapi-v2.p.rapidapi.com",
+  },
 };
-
 
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
-  if(data.includes("calender")){
-    if(data=="calender"){
-      
+  if (data.includes("calender")) {
+    if (data == "calender") {
       await ctx.answerCallbackQuery("Fetching data...");
-      await ctx.reply("Select Calender language: ", { reply_markup: calenderKeyboard });
-    }
-    else{
+      await ctx.reply("Select Calender language: ", {
+        reply_markup: calenderKeyboard,
+      });
+    } else {
       calenders.forEach(async (calender) => {
         if (calender.cb === data) {
           await ctx.replyWithPhoto(calender.url);
         }
-      }); 
-    }
-  }
-  else if (data == 'jokes') {
-      let response = await fetch('https://jokeapi-v2.p.rapidapi.com/joke/Any?type=twopart', fetchJokes)
-      let res = await response.json();
-      ctx.answerCallbackQuery("Fetching data....");
-      ctx.api.sendMessage(ctx.msg?.chat?.id, res.setup, {
-        parse_mode: "Markdown"
       });
-      setTimeout(() => ctx.api.sendMessage(ctx.msg?.chat?.id, res.delivery, {
-        parse_mode: "Markdown"
-      }), 5000);
-  }
-  else if (data === "Memes") {
+    }
+  } else if (data == "jokes") {
+    let response = await fetch(
+      "https://jokeapi-v2.p.rapidapi.com/joke/Any?type=twopart",
+      fetchJokes
+    );
+    let res = await response.json();
+    ctx.answerCallbackQuery("Fetching data....");
+    ctx.api.sendMessage(ctx.msg?.chat?.id, res.setup, {
+      parse_mode: "Markdown",
+    });
+    setTimeout(
+      () =>
+        ctx.api.sendMessage(ctx.msg?.chat?.id, res.delivery, {
+          parse_mode: "Markdown",
+        }),
+      5000
+    );
+  } else if (data === "Memes") {
     const memes = await fetchPosts("memes", {
       sort: "new",
       limit: 100,
@@ -360,7 +363,7 @@ bot.on("callback_query:data", async (ctx) => {
 
 bot.command("start", async (ctx) => {
   await ctx.reply(
-    "Welcome! The bot is up and running. \nSend /commands to see all the available commands."
+    `Welcome ${ctx.message?.chat.first_name}! The bot is up and running.Send /commands to see all the available commands.`
   );
 });
 
@@ -372,14 +375,16 @@ bot.command("commands", async (ctx) => {
 
 // Handler for all messages that aren't valid commands or callbacks
 bot.on("message", async (ctx) => {
-    await ctx.reply(`
+  await ctx.reply(
+    `
     I don't seem to recognise this command.
     You can check the commands by clicking the "Menu" option beside your keyboard!
-    `, {
-        parse_mode: 'Markdown'
-    })
-})
-
+    `,
+    {
+      parse_mode: "Markdown",
+    }
+  );
+});
 
 serve(async (req) => {
   if (req.method === "POST") {
