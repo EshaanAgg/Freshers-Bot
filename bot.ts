@@ -388,13 +388,15 @@ async function generateOrientationEndImage(username: string) {
     },
   });
   let res = await response.json();
-  var image = fetch(`https://api.bannerbear.com/v2/images/${res["uid"]}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${Deno.env.get("BANNERBEAR_API_KEY")}`,
-    },
-  });
-  console.log(image);
+  var image = await fetch(
+    `https://api.bannerbear.com/v2/images/${res["uid"]}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Deno.env.get("BANNERBEAR_API_KEY")}`,
+      },
+    }
+  );
   return image;
 }
 
