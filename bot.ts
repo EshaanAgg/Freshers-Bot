@@ -397,7 +397,8 @@ async function generateOrientationEndImage(username: string) {
       },
     }
   );
-  console.log(image);
+  let res2 = await image.json();
+  console.log(res2);
   return image;
 }
 
