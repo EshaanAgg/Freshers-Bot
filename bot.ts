@@ -10,7 +10,7 @@ import {
 console.log("The script is being executed successfully. SANITY CHECK PASSED.");
 
 var allotedGifts = 0;
-const MAX_GIFTS = 40;
+const MAX_GIFTS = 300;
 
 const lectureHalls = `
 Here are the halls on our campus:
@@ -375,7 +375,7 @@ Thanks for being with us!
 
 Here are some important links for you guys:
 - Follow us on [Instagram](https://www.instagram.com/cops.iitbhu/)
-- Join the [COPS Discord](demo-link) to be a part of our community
+- Join the [COPS Discord](https://discord.com/invite/PyXEeG5N) to be a part of our community
 
 Here are some other important links:
 - [Orientation PPT](https://www.canva.com/design/DAFQmAg4Jiw/mLsMI1VdKUcpnzhL2pQEWA/edit?utm_content=DAFQmAg4Jiw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
