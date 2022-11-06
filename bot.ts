@@ -9,6 +9,9 @@ import {
 
 console.log("The script is being executed successfully. SANITY CHECK PASSED.");
 
+var allotedGifts = 0;
+const MAX_GIFTS = 40;
+
 const lectureHalls = `
 Here are the halls on our campus:
 [LT 1.x](https://goo.gl/maps/RANXpqoEv7jy4KCP6)
@@ -192,7 +195,6 @@ Here are the sports grounds on our campus:
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN") || "");
 
-
 const handleUpdate = webhookCallback(bot, "std/http");
 
 const commands = [
@@ -293,14 +295,14 @@ const fetchJokes = {
     "X-RapidAPI-Host": "jokeapi-v2.p.rapidapi.com",
   },
 };
-const fetchMemes= {
-  method:"GET",
-  headers:{
+const fetchMemes = {
+  method: "GET",
+  headers: {
     "X-RapidAPI-Key": Deno.env.get("RapidAPI-Key"),
     "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com",
-    "Content-Type":"application/json"
+    "Content-Type": "application/json",
   },
-}
+};
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
   if (data.includes("calender")) {
@@ -335,10 +337,10 @@ bot.on("callback_query:data", async (ctx) => {
     );
   } else if (data === "Memes") {
     const res = await fetch(
-      "https://programming-memes-images.p.rapidapi.com/v1/memes" 
-     ,
-     fetchMemes);
-     const memes = await res.json();
+      "https://programming-memes-images.p.rapidapi.com/v1/memes",
+      fetchMemes
+    );
+    const memes = await res.json();
     await ctx.answerCallbackQuery("Here are some memes for you");
     const meme = memes[Math.floor(Math.random() * memes.length)];
     await ctx.replyWithPhoto(meme.image);
@@ -403,15 +405,32 @@ bot.command("commands", async (ctx) => {
 
 // Handler for all messages that aren't valid commands or callbacks
 bot.on("message", async (ctx) => {
-  await ctx.reply(
-    `
-    I don't seem to recognise this command.
+  if (ctx.message.includes("trical")) {
+    await ctx.reply(`Damn! You are well aware about the "Iconic" places on our campuss!
+    Congrats for getting the right answer!!`);
+    if (allotedGifts <= MAX_GIFTS) {
+      await ctx.reply(
+        `You were amoung the fastest freshers to crack this. Thus as a token of appreciation here's a little something from our side! Wait till the end of the orientation to claim it!`
+      );
+      await ctx.replyWithPhoto("https://iili.io/pFjXcB.png");
+    } else {
+      await ctx.reply(
+        "But you weren't fast enough! Your peers beat you in this treasure hunt! But don't be disheartened. There would be many such opportunities in future for you in COPS. Stay tuned!"
+      );
+    }
+    allotedGifts += 1;
+  } else {
+    await ctx.reply(
+      `
+    I don't seem to recognise this command. (Nor is it the correct answer to the hunt :( )
     You can check the commands by clicking the "Menu" option beside your keyboard!
     `,
-    {
-      parse_mode: "Markdown",
-    }
-  );
+      {
+        parse_mode: "Markdown",
+      }
+    );
+  }
+  await ctx.reply(allotedGifts);
 });
 
 serve(async (req) => {
