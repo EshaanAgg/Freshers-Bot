@@ -286,7 +286,7 @@ bot.on("callback_query:data", async (ctx) => {
   }
   else if (data === "Memes") {
     const memes = await fetchPosts("memes", {
-      sort: "new",
+      sort: "top",
       limit: 100,
       filterNSFW: true,
       amount: 100,
