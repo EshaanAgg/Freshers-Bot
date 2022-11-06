@@ -405,7 +405,7 @@ bot.command("commands", async (ctx) => {
 
 // Handler for all messages that aren't valid commands or callbacks
 bot.on("message", async (ctx) => {
-  var message = ctx.message?.text;
+  var message = ctx.message?.text?.toLowerCase();
   if (message.includes("trical")) {
     await ctx.reply(`
     Damn! You are well aware about the "Iconic" places on our campuss!
@@ -429,6 +429,11 @@ bot.on("message", async (ctx) => {
       }
     );
   }
+});
+
+bot.command("resetGifts", async (ctx) => {
+  allotedGifts = 0;
+  await ctx.reply("Alloted gifts have been reset to 0.");
   await ctx.reply(allotedGifts);
 });
 
