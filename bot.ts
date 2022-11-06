@@ -235,11 +235,11 @@ const commands = [
     cb: "Sports",
     data: sports,
   },
-  {
-    text: "🤣Memes",
-    cb: "Memes",
-    data: "",
-  },
+  // {
+  //   text: "🤣Memes",
+  //   cb: "Memes",
+  //   data: "",
+  // },
   {
     text: "Getting Bored, Want jokes??😂😂",
     cb: "jokes",
