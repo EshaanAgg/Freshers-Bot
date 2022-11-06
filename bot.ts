@@ -6,7 +6,6 @@ import {
   Bot,
   InlineKeyboard,
 } from "https://deno.land/x/grammy@v1.11.2/mod.ts";
-import { fetchPosts } from "https://deno.land/x/redditposts/src/mod.ts";
 
 console.log("The script is being executed successfully. SANITY CHECK PASSED.");
 
@@ -336,19 +335,10 @@ bot.on("callback_query:data", async (ctx) => {
     );
   } else if (data === "Memes") {
     const res = await fetch(
-      "https://programming-memes-images.p.rapidapi.com/memes" 
+      "https://programming-memes-images.p.rapidapi.com/v1/memes" 
      ,
      fetchMemes);
      const memes = await res.json();
-
-    // const memes = await fetchPosts("memes", {
-    //   sort: "old",
-    //   limit: 100,
-    //   filterNSFW: true,
-    //   amount: 100,
-    //   category:"top"
-    // });
-    // console.log(res);
     await ctx.answerCallbackQuery("Here are some memes for you");
     const meme = memes[Math.floor(Math.random() * memes.length)];
     await ctx.replyWithPhoto(meme.image);
