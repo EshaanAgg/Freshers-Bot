@@ -405,7 +405,8 @@ bot.command("commands", async (ctx) => {
 
 // Handler for all messages that aren't valid commands or callbacks
 bot.on("message", async (ctx) => {
-  if (ctx.message.includes("trical")) {
+  var message = ctx.message.toString();
+  if (message.includes("trical")) {
     await ctx.reply(`Damn! You are well aware about the "Iconic" places on our campuss!
     Congrats for getting the right answer!!`);
     if (allotedGifts <= MAX_GIFTS) {
