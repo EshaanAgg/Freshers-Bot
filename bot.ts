@@ -1,5 +1,6 @@
 // deno-lint-ignore-file
 import { serve } from "https://deno.land/std@0.160.0/http/server.ts";
+import { type RedditPost } from "https://deno.land/x/redditposts@v1.0.0/src/typings/RedditPost.ts";
 import {
   webhookCallback,
   Bot,
@@ -192,6 +193,7 @@ Here are the sports grounds on our campus:
 
 const bot = new Bot(Deno.env.get("TELEGRAM_BOT_TOKEN") || "");
 
+
 const handleUpdate = webhookCallback(bot, "std/http");
 
 const commands = [
@@ -235,11 +237,11 @@ const commands = [
     cb: "Sports",
     data: sports,
   },
-  // {
-  //   text: "🤣Memes",
-  //   cb: "Memes",
-  //   data: "",
-  // },
+  {
+    text: "🤣Memes",
+    cb: "Memes",
+    data: "",
+  },
   {
     text: "Getting Bored, Want jokes??😂😂",
     cb: "jokes",
@@ -292,7 +294,14 @@ const fetchJokes = {
     "X-RapidAPI-Host": "jokeapi-v2.p.rapidapi.com",
   },
 };
-
+const fetchMemes= {
+  method:"GET",
+  headers:{
+    "X-RapidAPI-Key": Deno.env.get("RapidAPI-Key"),
+    "X-RapidAPI-Host": "programming-memes-images.p.rapidapi.com",
+    "Content-Type":"application/json"
+  },
+}
 bot.on("callback_query:data", async (ctx) => {
   let data = ctx.callbackQuery?.data;
   if (data.includes("calender")) {
@@ -326,15 +335,23 @@ bot.on("callback_query:data", async (ctx) => {
       5000
     );
   } else if (data === "Memes") {
-    const memes = await fetchPosts("memes", {
-      sort: "top",
-      limit: 100,
-      filterNSFW: true,
-      amount: 100,
-    });
+    const res = await fetch(
+      "https://programming-memes-images.p.rapidapi.com/memes" 
+     ,
+     fetchMemes);
+     const memes = await res.json();
+
+    // const memes = await fetchPosts("memes", {
+    //   sort: "old",
+    //   limit: 100,
+    //   filterNSFW: true,
+    //   amount: 100,
+    //   category:"top"
+    // });
+    // console.log(res);
     await ctx.answerCallbackQuery("Here are some memes for you");
     const meme = memes[Math.floor(Math.random() * memes.length)];
-    await ctx.replyWithPhoto(meme.imageURL);
+    await ctx.replyWithPhoto(meme.image);
     await ctx.api.sendMessage(ctx.chat?.id, "Want more?", {
       reply_markup: memesKeyboard,
     });
