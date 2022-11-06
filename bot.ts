@@ -229,20 +229,20 @@ const commands = [
     data: gates,
   },
   {
-    text: "Wanna play?😏",
+    text: "Wanna play? 😏",
     cb: "Sports",
     data: sports,
   },
-  // {
-  //   text: "🤣Memes",
-  //   cb: "Memes",
-  //   data: "",
-  // },
-  // {
-  //   text:"Getting Bored, Want jokes??😂😂",
-  //   cb:"jokes",
-  //   data:""
-  // }
+  {
+    text: "🤣Memes",
+    cb: "Memes",
+    data: "",
+  },
+  {
+    text:"Getting Bored, Want jokes??😂😂",
+    cb:"jokes",
+    data:""
+  }
 ];
 
 const keyboard = new InlineKeyboard();
@@ -288,7 +288,7 @@ bot.on("callback_query:data", async (ctx) => {
     const memes = await fetchPosts("memes", {
       sort: "new",
       limit: 100,
-      filterNSFW: false,
+      filterNSFW: true,
       amount: 100,
     });
     await ctx.answerCallbackQuery("Here are some memes for you");
