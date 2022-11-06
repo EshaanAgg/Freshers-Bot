@@ -405,9 +405,10 @@ bot.command("commands", async (ctx) => {
 
 // Handler for all messages that aren't valid commands or callbacks
 bot.on("message", async (ctx) => {
-  var message = ctx.message.toString();
+  var message = ctx.message?.text;
   if (message.includes("trical")) {
-    await ctx.reply(`Damn! You are well aware about the "Iconic" places on our campuss!
+    await ctx.reply(`
+    Damn! You are well aware about the "Iconic" places on our campuss!
     Congrats for getting the right answer!!`);
     if (allotedGifts <= MAX_GIFTS) {
       await ctx.reply(
@@ -422,10 +423,7 @@ bot.on("message", async (ctx) => {
     allotedGifts += 1;
   } else {
     await ctx.reply(
-      `
-    I don't seem to recognise this command. (Nor is it the correct answer to the hunt :( )
-    You can check the commands by clicking the "Menu" option beside your keyboard!
-    `,
+      `I don't seem to recognise this command. Nor is it the correct answer to the hunt :( You can check the commands by clicking the "Menu" option beside your keyboard!`,
       {
         parse_mode: "Markdown",
       }
